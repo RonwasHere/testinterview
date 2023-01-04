@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 
+//masih bingung tentang ini.... 
 class PostResult {
   late String email;
   late String hp;

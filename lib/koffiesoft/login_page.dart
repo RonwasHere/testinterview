@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/dashboard');
+                    login();
                   },
                   child: Text(
                     'Login',
@@ -129,5 +138,27 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //Function login
+  Future<void> login() async {
+    if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
+      var respon = await http.post(
+          Uri.parse(
+              'https://grinder.koffiesoft.com/docs#/Authentication/login_login_post'),
+          body: ({
+            'email': emailController.text,
+            'password': passwordController.text
+          }));
+      if (respon.statusCode == 200) {
+        Navigator.pushNamed(context, '/dashboard');
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('email / password salah')));
+      }
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Blank Field Not Allowwed')));
+    }
   }
 }
