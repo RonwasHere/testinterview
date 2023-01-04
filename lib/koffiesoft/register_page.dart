@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:testinterview/koffiesoft/post_result_model.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -206,7 +207,8 @@ class RegisterPage extends StatelessWidget {
                 SizedBox(width: 5),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/register');
+                    tambah();
+                    // Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
                     'Register',
@@ -223,5 +225,13 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //Function Tambah Data
+  void tambah() async {
+    bool respon = await PostResult('email', 'hp', 'firstname', 'lastname',
+        'group', 'role', 'tgl_lahir', 'jenis_kelamin');
+
+    if (respon == true) {}
   }
 }
